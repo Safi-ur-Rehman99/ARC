@@ -2,7 +2,7 @@ import { upsertStreamUser } from "../lib/stream.js";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
-export async function signup(req, res) {
+export async function signup(req, res) { 
   const {email, password, fullname } = req.body;
   try {
     if(!email || !password || !fullname){
@@ -92,4 +92,45 @@ export async function login(req, res) {
 export async function logout(req, res) {
     res.clearCookie("jwt")
     res.status(200).json({success: true,     message: "User logged out successfully" });
+}
+
+export async function onboard(req, res) {
+    try {
+        const userId= req.user._id;
+        const {fullName,bio,nativeLanguage,learningLanguage,location}= req.body;
+        if(!fullName || !bio || !nativeLanguage || !learningLanguage || !location){
+            const missingFields = [
+                !fullName&&"fullName",
+                !bio&&"bio",
+                !nativeLanguage&&"nativeLanguage",
+                !learningLanguage&&"learningLanguage",
+                !location&&"location",
+        ].filter(Boolean);
+
+            return res.status(400).json({
+                 message: "Please provide all required fields",
+                 missingFields
+
+             });
+        }   
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            {
+              ...req.body,
+              isOnboarded: true
+            },
+            { new: true }
+        );
+        if(!updatedUser){
+            return res.status(404).json({ message: "User not found" });
+        }
+        return res.status(200).json({
+            message: "Onboarding completed successfully",
+            user: updatedUser,
+        });
+        
+
+    } catch (error) {
+        return res.status(500).json({ message: "Server error, please try again later", error: error.message });
+    }
 }
