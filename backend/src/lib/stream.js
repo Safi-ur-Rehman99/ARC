@@ -20,5 +20,12 @@ export const upsertStreamUser=async(userData)=>{
 }
 //todo
 export const generateStreamToken=(userId)=>{
-
+try {
+    const userIdStr=userId.toString();
+    const token= chatClient.createToken(userIdStr);
+    return token;
+} catch (error) {
+    console.error("Error generating Stream token:", error);
+    
+}
 }
