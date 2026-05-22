@@ -10,21 +10,24 @@ import ChatPage from './pages/ChatPage'
 import { Toaster } from 'react-hot-toast'
 import { useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './lib/axios'
+import PageLoader from './components/PageLoader'
+import useAuthUser from './hook/useAuthUser'
 
 const App = () => {
   //todo: understand the useQuery and how it works with react-query and axios
- const {data: authData, isLoading, error} = useQuery({ queryKey: ['todos'],
-   queryFn: async () => {
-    const res= await axiosInstance.get('/auth/me')
-    return res.data
-   },
-   retry: false
-   }) ;
- const authUser= authData?.user
+ const {isLoading, authUser}= useAuthUser() 
+ const isAuthenticated = Boolean(authUser)
+ const isOnboarded = authUser?.isOnboarded
+
+ if(isLoading){
+  return <PageLoader />
+ }
  return (
     <div>
       <Routes>
-          <Route path="/" element={ authUser? <HomePage />: <Navigate to="/login" /> } />
+          <Route path="/" element={ isAuthenticated && isOnboarded ? <HomePage /> : (
+            <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
+          )} />
           <Route path="/login" element={!authUser?<LoginPage />: <Navigate to="/" /> } />
           <Route path="/signup" element={!authUser?<SignupPage />: <Navigate to="/" /> } />
           <Route path="/notification" element={authUser ? <NotificationPage /> : <Navigate to="/login" />  } />
