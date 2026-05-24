@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './lib/axios'
 import PageLoader from './components/PageLoader'
 import useAuthUser from './hook/useAuthUser'
+import Layout from './components/Layout'
 
 const App = () => {
   //todo: understand the useQuery and how it works with react-query and axios
@@ -25,11 +26,11 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={isAuthenticated && isOnboarded ? <HomePage /> : (
+        <Route path="/" element={isAuthenticated && isOnboarded ? <Layout showSidebar={true}><HomePage /> </Layout> : (
           <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
         )} />
-        <Route path="/login" element={isAuthenticated? (isOnboarded ? <HomePage /> : <Navigate to="/onboarding" />):(<LoginPage />)} />
-        <Route path="/signup" element={isAuthenticated? (isOnboarded ? <HomePage /> : <Navigate to="/onboarding" />):(<SignupPage />)} />
+        <Route path="/login" element={isAuthenticated? (isOnboarded ? <Navigate to="/" /> : <Navigate to="/onboarding" />):(<LoginPage />)} />
+        <Route path="/signup" element={isAuthenticated? (isOnboarded ? <Navigate to="/" /> : <Navigate to="/onboarding" />):(<SignupPage />)} />
         <Route path="/notification" element={authUser ? <NotificationPage /> : <Navigate to="/login" />} />
         <Route path="/onboarding" element={
           isAuthenticated ? (isOnboarded ? (<Navigate to="/" />) : (
