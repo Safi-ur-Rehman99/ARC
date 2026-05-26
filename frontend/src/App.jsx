@@ -13,18 +13,20 @@ import { axiosInstance } from './lib/axios'
 import PageLoader from './components/PageLoader'
 import useAuthUser from './hook/useAuthUser'
 import Layout from './components/Layout'
+import { useThemeStore } from './store/useThemeStore'
 
 const App = () => {
   //todo: understand the useQuery and how it works with react-query and axios
   const { isLoading, authUser } = useAuthUser()
   const isAuthenticated = Boolean(authUser)
   const isOnboarded = authUser?.isOnboarded
+  const {theme}= useThemeStore()
 
   if (isLoading) {
     return <PageLoader />
   }
   return (
-    <div>
+    <div className="h-screen" data-theme={theme}>
       <Routes>
         <Route path="/" element={isAuthenticated && isOnboarded ? <Layout showSidebar={true}><HomePage /> </Layout> : (
           <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
