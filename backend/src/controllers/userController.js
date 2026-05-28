@@ -1,3 +1,6 @@
+import User from '../models/User.js';
+import FriendRequest from '../models/FriendRequest.js';
+
 export async function getRecommendedUser(req, res) {
 
     try {
@@ -7,7 +10,7 @@ export async function getRecommendedUser(req, res) {
         const recommendedUsers = await User.find({
             $and: [
                 {_id: { $ne:currentUserId }}, // Exclude the current user
-                {$id: {$nin: currentUser.friends }}, // Exclude users who are already friends
+                {_id: {$nin: currentUser.friends }}, // Exclude users who are already friends
                 {isOnboarded: true}, // Only include users who are onboarded
             ]
         });
@@ -34,6 +37,7 @@ export async function getMyFriends(req,res) {
 
 export async function sendFriendRequest(req,res) {
     try {
+        console.log("test1" )
         const myId= req.user.id;
         const recipientId= req.params.id;
 
