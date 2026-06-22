@@ -72,7 +72,7 @@ export async function sendFriendRequest(req,res) {
 
 export async function acceptFriendRequest(req,res) {
     try {
-        const requestId= req.user.id;
+        const requestId = req.params.id;
 
         const friendRequest= await FriendRequest.findById(requestId);
         if(!friendRequest){

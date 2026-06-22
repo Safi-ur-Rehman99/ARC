@@ -36,9 +36,9 @@ const LoginPage = () => {
           {/* LOGO */}
           <div className="mb-4 flex items-center justify-start gap-2">
             <ShipWheelIcon className="size-9 text-primary" />
-            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-              Streamify
-            </span>
+            <h1 className="text-2xl font-bold mt-2 font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
+              ARC
+            </h1>
           </div>
 
           {/* ERROR MESSAGE DISPLAY */}
