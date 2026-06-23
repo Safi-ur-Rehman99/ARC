@@ -7,7 +7,7 @@ const ThemeSelector = () => {
 
   return (
     <div className="dropdown dropdown-end">
-     
+
       <button tabIndex={0} className="btn btn-ghost btn-circle">
         <PaletteIcon className="size-5" />
       </button>
@@ -23,11 +23,10 @@ const ThemeSelector = () => {
               key={themeOption.name}
               className={`
               w-full px-4 py-3 rounded-xl flex items-center gap-3 transition-colors
-              ${
-                theme === themeOption.name
+              ${theme === themeOption.name
                   ? "bg-primary/10 text-primary"
                   : "hover:bg-base-content/5"
-              }
+                }
             `}
               onClick={() => setTheme(themeOption.name)}
             >

@@ -1,5 +1,6 @@
 import React from 'react'
 import ChatLoader from '../components/ChatLoader'
+import { useThemeStore } from '../store/useThemeStore'
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -23,6 +24,10 @@ import CallButton from '../components/CallButton';
 const ChatPage = () => {
 
   const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY
+
+  const { theme } = useThemeStore();
+  const isDarkMode = ['dark', 'synthwave', 'halloween', 'forest', 'black', 'luxury', 'dracula', 'business', 'night', 'coffee', 'dim'].includes(theme);
+  const streamTheme = isDarkMode ? 'str-chat__theme-dark' : 'str-chat__theme-light';
 
   const { id: targetUserId } = useParams()
   const [chatClient, setChatClient] = useState(null)
@@ -84,7 +89,7 @@ const ChatPage = () => {
 
   return (
     <div className="h-[93vh]">
-      <Chat client={chatClient} theme="str-chat__theme-light">
+      <Chat client={chatClient} theme={streamTheme}>
         <Channel channel={channel}>
           <div className="w-full relative">
             <CallButton handleVideoCall={handleVideoCall} />

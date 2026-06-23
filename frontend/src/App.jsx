@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
 import NotificationPage from './pages/NotificationPage'
+import FriendsPage from './pages/FriendsPage'
 import OnboardingPage from './pages/OnboardingPage'
 import CallPage from './pages/CallPage'
 import ChatPage from './pages/ChatPage'
@@ -31,6 +32,9 @@ const App = () => {
     <div className="h-screen" data-theme={theme}>
       <Routes>
         <Route path="/" element={isAuthenticated && isOnboarded ? <Layout showSidebar={true}><HomePage /> </Layout> : (
+          <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
+        )} />
+        <Route path="/friends" element={isAuthenticated && isOnboarded ? <Layout showSidebar={true}><FriendsPage /> </Layout> : (
           <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
         )} />
         <Route path="/login" element={isAuthenticated ? (isOnboarded ? <Navigate to="/" /> : <Navigate to="/onboarding" />) : (<LoginPage />)} />
